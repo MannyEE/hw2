@@ -9,6 +9,7 @@
 #include "db_parser.h"
 #include "product_parser.h"
 #include "util.h"
+#include "mydatastore.h"
 
 using namespace std;
 struct ProdNameSorter {
@@ -25,11 +26,11 @@ int main(int argc, char* argv[])
         return 1;
     }
 
+    MyDataStore ds;
     /****************
      * Declare your derived DataStore object here replacing
      *  DataStore type to your derived type
      ****************/
-    DataStore ds;
 
 
 
@@ -100,10 +101,49 @@ int main(int argc, char* argv[])
                 done = true;
             }
 	    /* Add support for other commands here */
+            else if ( cmd == "ADD") {
+                string username;
+                int idx;
+
+                if(ss >> username >> idx) {
+                    User* currUser = ds.getUser(username);
+                    if (currUser == nullptr || idx < 0 || idx > hits.size()) {
+                        cout << "Invalid request" << endl;
+                    } else {
+                        ds.addToCart(currUser, hits[idx - 1]);
+                    }
+                }
+                
+
+            }
+            else if ( cmd == "VIEWCART") {
+                string username;
+                if(ss >> username) {
+
+                    User* currUser = ds.getUser(username);
+                    if (currUser == nullptr) {
+                        cout << "Invalid username" << endl;
+                    } else {
+                        ds.viewCart(currUser);
+                    }
+                    
+                }
 
 
+            }
+            else if ( cmd == "BUYCART") {
+                string username;
+                if(ss >> username) {
 
+                    User* currUser = ds.getUser(username);
+                    if (currUser == nullptr) {
+                        cout << "Invalid username" << endl;
+                    } else { 
+                        ds.buyCart(currUser);
+                    }
+                }
 
+            }
             else {
                 cout << "Unknown command" << endl;
             }

@@ -1,5 +1,5 @@
-#ifndef BOOK_H
-#define BOOK_H
+#ifndef CLOTHING_H
+#define CLOTHING_H
 #include <iostream>
 #include <string>
 #include <set>
@@ -8,9 +8,10 @@
 #include "product.h"
 
 
-class Book : public Product {
+class Clothing : public Product {
 public:
-    Book(const std::string category, const std::string name, double price, int qty, std::string isbn, std::string author);
+    Clothing(const std::string category, const std::string name, double price, int qty,
+    std::string size_, std::string brand_);
 
     std::set<std::string> keywords() const;
 
@@ -21,8 +22,8 @@ public:
 
 
 protected:
-    std::string isbn_;
-    std::string author_;
+    std::string size_;
+    std::string brand_;
 
 };
 #endif
